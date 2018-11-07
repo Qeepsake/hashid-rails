@@ -33,7 +33,14 @@ module Hashid
     def hashid
       self.class.encode_id(id)
     end
-    alias to_param hashid
+    
+    def to_param
+      if Hashid::Rails.configuration.override_find
+        hashid
+      else
+        super
+      end
+    end
 
     module ClassMethods
       def relation
